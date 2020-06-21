@@ -43,7 +43,7 @@ var render = function() {
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-header" }, [_vm._t("title")], 2),
     _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [_vm._t("body")], 2)
+    _c("div", { staticClass: "card-body" }, [_vm._t("main")], 2)
   ])
 }
 var staticRenderFns = []
