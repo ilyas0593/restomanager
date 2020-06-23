@@ -50274,6 +50274,9 @@ Vue.component('card-component', function () {
 Vue.component('menu-container', function () {
   return Promise.all(/*! import() */[__webpack_require__.e(2), __webpack_require__.e(0)]).then(__webpack_require__.bind(null, /*! ./modules/menu/MenuContainer.vue */ "./resources/js/modules/menu/MenuContainer.vue"));
 });
+Vue.component('resto-group', function () {
+  return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./modules/restos/RestoGroup.vue */ "./resources/js/modules/restos/RestoGroup.vue"));
+});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
