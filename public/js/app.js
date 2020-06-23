@@ -50272,7 +50272,7 @@ Vue.component('card-component', function () {
   return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/Card.vue */ "./resources/js/components/Card.vue"));
 });
 Vue.component('menu-container', function () {
-  return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(2)]).then(__webpack_require__.bind(null, /*! ./modules/menu/MenuContainer.vue */ "./resources/js/modules/menu/MenuContainer.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e(2), __webpack_require__.e(0)]).then(__webpack_require__.bind(null, /*! ./modules/menu/MenuContainer.vue */ "./resources/js/modules/menu/MenuContainer.vue"));
 });
 /**
  * Next, we will create a fresh Vue application instance and attach it to

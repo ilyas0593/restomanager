@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
     //
-    protected $qith = ['category'];
+    protected $with = ['category'];
+    protected $guarded = [];
 
     public function category(){
 

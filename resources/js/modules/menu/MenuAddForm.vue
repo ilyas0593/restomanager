@@ -39,7 +39,7 @@
     import Multiselect from 'vue-multiselect';
 
 export default {
-  props: ['categories'],
+  props: ['categories', 'restoId'],
 
   components:{
       Multiselect
@@ -47,18 +47,35 @@ export default {
   
   data() {
     return {
-      food: {
-          item: '',
-          category: '',
-          price: 100
-      }
+      food: this.getBasicMenuItem()
     }
   },
   methods: {
-    
+    getBasicMenuItem() {
+      return {
+        item: '',
+        category: '',
+        price: 100,
+        description: ''
+      }
+    },
+
     handleSubmit() {
-        console.log('form data', this.food);
+      let food = this.food;
+      food.restoId = this.restoId;
+
+      window.axios.post('/api/item', food).then(response => {
+        console.log('response', response.data);
+        this.$emit('newItemAdded', response.data, food.category);
+        this.food = this.getBasicMenuItem();
+      }).catch(error => {
+        if (error.response.status && error.response.status == 422) {
+          this.validation.setMessages(error.response.data.errors);
+        }
+        console.log('error', error);
+      });
     }
+
   }
 }
 </script>
