@@ -1,7 +1,7 @@
 <template>
   <div class="resto-group__wrapper mb-5">
     <div class="row">
-      <div class="col-md-4 mb-4" v-for="resto in restos" :key="resto.id">
+      <div class="col-md-4 mb-4" v-for="resto in localResto" :key="resto.id">
         <card-component>
           <template slot="title">{{resto.name}}</template>
           <template slot="main">{{resto.location}}</template>
@@ -14,7 +14,7 @@
             <span @click="handleAddNewResto">+</span>
           </template>
         </card-component>
-        <modal name="add-new-resto" height="50%">
+        <modal name="add-new-resto" height="auto">
           <div class="container-padding">
             <resto-add-form 
             @addRestoEvent="handleSaveResto"
@@ -28,6 +28,7 @@
 
 <script>
 import RestoAddForm from './RestoAddForm.vue';
+import axios from 'axios';
 
 export default {
   components: {
@@ -36,24 +37,28 @@ export default {
   props: ['restos'],
   created() {
     console.log('this.restos.length', this.restos.length);
+    this.localResto = this.restos;
   },
   computed: {
     showAddForm() {
-      return (this.restos.length < 5) ? true : false;
+      return (this.localResto.length < 5) ? true : false;
     }
   },
   data() {
-    return {}
+    return {
+      localResto: []
+    }
   },
   methods: {
     handleAddNewResto(){
       this.$modal.show('add-new-resto');
     },
     handleCancelResto(){
-      console.log('i was clicked');
+      this.$modal.hide('add-new-resto');
     },
     handleSaveResto(restoData){
-      console.log('restodata', restoData);
+      axios.post('/api/resto', restoData).then(response => this.localResto.unshift(response.data));
+      this.$modal.hide('add-new-resto');
     }
   }
 }
