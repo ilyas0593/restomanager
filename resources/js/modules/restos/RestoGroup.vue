@@ -8,6 +8,7 @@
             {{resto.location}}
             <br>
             <a v-bind:href="resto.slug" class="card-link">Menu</a>
+            <a v-bind:href="resto.ordersSlug" class="card-link">Orders</a>
             </template>
         </card-component>
       </div>

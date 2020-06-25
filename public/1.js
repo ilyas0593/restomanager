@@ -115,6 +115,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -326,6 +327,15 @@ var render = function() {
                       "a",
                       { staticClass: "card-link", attrs: { href: resto.slug } },
                       [_vm._v("Menu")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "card-link",
+                        attrs: { href: resto.ordersSlug }
+                      },
+                      [_vm._v("Orders")]
                     )
                   ])
                 ],
