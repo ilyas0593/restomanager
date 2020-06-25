@@ -8,7 +8,7 @@
                     <small>{{item.category.name}}</small>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-primary btn-sm">Add</button>
+                    <button class="btn btn-primary btn-sm" @click="handleAddButton(item)">Add</button>
                 </div>
             </div>
         </li>
@@ -17,6 +17,11 @@
 
 <script>
 export default {
-    props: ['items']
+    props: ['items'],
+    methods: {
+        handleAddButton(item){
+            this.$emit('menuItemAdded', item);
+        }
+    }
 }
 </script>
