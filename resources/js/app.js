@@ -35,6 +35,8 @@ Vue.component('menu-container', () => import ('./modules/menu/MenuContainer.vue'
 
 Vue.component('resto-group', () => import ('./modules/restos/RestoGroup.vue'));
 
+Vue.component('order-group', () => import ('./modules/orders/OrderGroup.vue'));
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -27,4 +27,12 @@ class RestaurantOrderController extends Controller
         ->with('resto', $resto);
 
     }
+
+    public function add($id){
+
+        $resto = Restaurant::findOrFail($id);
+
+        return view('orders.order-add')->with('resto', $resto);
+
+    }
 }
