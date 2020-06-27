@@ -14,6 +14,9 @@
                 <a href="{{route('resto.orders.add', $resto->id)}}" class="btn btn-primary">Add Order</a>
             </div>
             @if ($orders->count() > 0)
+            <div class="mb-3 float-right">
+                <a href="{{route('resto.orders.add', $resto->id)}}" class="btn btn-primary">Add Order</a>
+            </div>
 
             <table class="table table-hover table-bordered table-striped">
                 <thead>
@@ -44,7 +47,7 @@
             </table>
             {{$orders->render()}}
             @else
-                <p>You don't have any orders yet.</p>
+            <p>You don't have any orders yet. Click <a href="{{route('resto.orders.add', $resto->id)}}">here</a> to add</p>
             @endif
         </div>
     </div>

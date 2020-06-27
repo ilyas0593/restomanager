@@ -8,15 +8,15 @@
 
             <div class="mb-5">
                 <h3>Order Details <span class="float-right" v-if="finalAmount > 0">{{finalAmount}}</span></h3>
-                <order-details :order-details="orderDetails"></order-details>
+                <order-list :items="orderItems"></order-list>
             </div>
         </div>
         
         <div class="col-md-5">
-            <h3>Menu</h3>
-            <order-menu-items 
+            <h3>Menu Items</h3>
+            <orderMenuItems 
             :items="menuItems"
-            @menuItemAdded="handleNewMenuItem"></order-menu-items>
+            @menuItemAdded="handleNewMenuItem"></orderMenuItems>
         </div>
 
     </div>
@@ -25,7 +25,7 @@
 <script>
 import OrderForm from './OrderForm';
 import OrderMenuItems from './OrderMenuItems';
-import OrderDetails from './OrderDetails';
+import OrderList from './OrderList';
 import axios from 'axios';
 
 export default {
@@ -33,15 +33,18 @@ export default {
     components: {
         OrderForm,
         OrderMenuItems,
-        OrderDetails
+        OrderList
     },
     created(){
-        this.loadRestoMenuItems();
+        this.fetchMenuItems();
+        window.eventBus.$on('menuItemAdded', this.handleNewMenuItem);
+        window.eventBus.$on('filtredList', this.handleFiltredList);
+        window.eventBus.$on('clearFiltredList', this.handleClearFiltredList);
     },
     computed: {
         finalAmount(){
             let price = 0;
-            this.orderDetails.forEach(order => {
+            this.orderItems.forEach(order => {
                 price = price + order.price;
             });
             return price;
@@ -50,19 +53,31 @@ export default {
     data(){
         return {
             menuItems: [],
-            orderDetails: []
+            orderItems: [],
+            originalMenuItems: []
         }
     },
     methods: {
-        loadRestoMenuItems() {
+        fetchMenuItems() {
             let postData = {restoId: this.restoId}
-            axios.post('/api/resto/menu', postData)
-            .then(response => console.log('response', this.menuItems = response.data))
+            axios.post('/api/menu-items', postData)
+            .then(response => {
+                this.menuItems = response.data
+                this.originalMenuItems = response.data
+            })
             .catch(error => console.error(error.response));
         },
 
-        handleNewMenuItem(item){
-            this.orderDetails.unshift(item);
+        handleNewMenuItem(menuitem){
+            this.orderItems.unshift(menuitem);
+        },
+
+        handleFiltredList(filtredList){
+            this.menuItems = filtredList;
+        },
+
+        handleClearFiltredList(){
+            this.menuItems = this.originalMenuItems;
         }
 
     }
