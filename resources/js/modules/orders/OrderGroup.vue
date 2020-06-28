@@ -1,14 +1,20 @@
 <template>
-    <div class="row">
+    <div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <button @click="handleOrderSave" class="btn btn-success float-right">Save</button>
+            </div>
+        </div>
+        <div class="row">
         <div class="col-md-7">
             <div class="mb-5">
                 <h3>Customer details</h3>
-                <order-form></order-form>
+                <order-form @customerDetailsChanged="customerDetailsHandle"></order-form>
             </div>
 
             <div class="mb-5">
                 <h3>Order Details <span class="float-right" v-if="finalAmount > 0">{{finalAmount}}</span></h3>
-                <order-list :items="orderItems"></order-list>
+                <order-list :items="orderedItems"></order-list>
             </div>
         </div>
         
@@ -19,6 +25,7 @@
             @menuItemAdded="handleNewMenuItem"></orderMenuItems>
         </div>
 
+    </div>
     </div>
 </template>
 
@@ -44,7 +51,7 @@ export default {
     computed: {
         finalAmount(){
             let price = 0;
-            this.orderItems.forEach(order => {
+            this.orderedItems.forEach(order => {
                 price = price + order.price;
             });
             return price;
@@ -53,8 +60,9 @@ export default {
     data(){
         return {
             menuItems: [],
-            orderItems: [],
-            originalMenuItems: []
+            orderedItems: [],
+            originalMenuItems: [],
+            customerDetails: null
         }
     },
     methods: {
@@ -69,7 +77,7 @@ export default {
         },
 
         handleNewMenuItem(menuitem){
-            this.orderItems.unshift(menuitem);
+            this.orderedItems.unshift(menuitem);
         },
 
         handleFiltredList(filtredList){
@@ -78,6 +86,26 @@ export default {
 
         handleClearFiltredList(){
             this.menuItems = this.originalMenuItems;
+        },
+
+        customerDetailsHandle(customer){
+            console.log('customer', customer);
+            this.customerDetails = customer;
+        },
+
+        handleOrderSave(){
+            let orderedItemsIds = [];
+            this.orderedItems.forEach(item => {
+                orderedItemsIds.push(item.id);
+            });
+            let orderData = {
+                customerDetails: this.customerDetails,
+                finalAmount: this.finalAmount,
+                orderedItems: orderedItemsIds
+            };
+
+            console.log(orderData);
+            axios.post('/api/order/save', orderData).then(response => console.log('response', response));
         }
 
     }

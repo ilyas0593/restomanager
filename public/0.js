@@ -125,6 +125,19 @@ __webpack_require__.r(__webpack_exports__);
         address: ''
       }
     };
+  },
+  watch: {
+    customer: {
+      handler: function handler(value) {
+        var customer = {
+          name: value.name,
+          phone: value.phone,
+          address: value.address
+        };
+        this.$emit('customerDetailsChanged', customer);
+      },
+      deep: true
+    }
   }
 });
 
@@ -144,6 +157,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _OrderList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./OrderList */ "./resources/js/modules/orders/OrderList.vue");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -188,7 +208,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     finalAmount: function finalAmount() {
       var price = 0;
-      this.orderItems.forEach(function (order) {
+      this.orderedItems.forEach(function (order) {
         price = price + order.price;
       });
       return price;
@@ -197,8 +217,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       menuItems: [],
-      orderItems: [],
-      originalMenuItems: []
+      orderedItems: [],
+      originalMenuItems: [],
+      customerDetails: null
     };
   },
   methods: {
@@ -216,13 +237,32 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     handleNewMenuItem: function handleNewMenuItem(menuitem) {
-      this.orderItems.unshift(menuitem);
+      this.orderedItems.unshift(menuitem);
     },
     handleFiltredList: function handleFiltredList(filtredList) {
       this.menuItems = filtredList;
     },
     handleClearFiltredList: function handleClearFiltredList() {
       this.menuItems = this.originalMenuItems;
+    },
+    customerDetailsHandle: function customerDetailsHandle(customer) {
+      console.log('customer', customer);
+      this.customerDetails = customer;
+    },
+    handleOrderSave: function handleOrderSave() {
+      var orderedItemsIds = [];
+      this.orderedItems.forEach(function (item) {
+        orderedItemsIds.push(item.id);
+      });
+      var orderData = {
+        customerDetails: this.customerDetails,
+        finalAmount: this.finalAmount,
+        orderedItems: orderedItemsIds
+      };
+      console.log(orderData);
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/api/order/save', orderData).then(function (response) {
+        return console.log('response', response);
+      });
     }
   }
 });
@@ -421,43 +461,79 @@ var render = function() {
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
         _vm._v(" "),
-        _c(
-          "input",
-          _vm._b(
-            { staticClass: "form-control", attrs: { type: "text" } },
-            "input",
-            _vm.customer.name,
-            false
-          )
-        )
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.customer.name,
+              expression: "customer.name"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text" },
+          domProps: { value: _vm.customer.name },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.customer, "name", $event.target.value)
+            }
+          }
+        })
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "name" } }, [_vm._v("Phone")]),
         _vm._v(" "),
-        _c(
-          "input",
-          _vm._b(
-            { staticClass: "form-control", attrs: { type: "text" } },
-            "input",
-            _vm.customer.phone,
-            false
-          )
-        )
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.customer.phone,
+              expression: "customer.phone"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text" },
+          domProps: { value: _vm.customer.phone },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.customer, "phone", $event.target.value)
+            }
+          }
+        })
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "name" } }, [_vm._v("Address")]),
         _vm._v(" "),
-        _c(
-          "input",
-          _vm._b(
-            { staticClass: "form-control", attrs: { type: "text" } },
-            "input",
-            _vm.customer.address,
-            false
-          )
-        )
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.customer.address,
+              expression: "customer.address"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text" },
+          domProps: { value: _vm.customer.address },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.customer, "address", $event.target.value)
+            }
+          }
+        })
       ])
     ])
   ])
@@ -484,47 +560,68 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-7" }, [
-      _c(
-        "div",
-        { staticClass: "mb-5" },
-        [_c("h3", [_vm._v("Customer details")]), _vm._v(" "), _c("order-form")],
-        1
-      ),
+  return _c("div", [
+    _c("div", { staticClass: "row mb-3" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success float-right",
+            on: { click: _vm.handleOrderSave }
+          },
+          [_vm._v("Save")]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-7" }, [
+        _c(
+          "div",
+          { staticClass: "mb-5" },
+          [
+            _c("h3", [_vm._v("Customer details")]),
+            _vm._v(" "),
+            _c("order-form", {
+              on: { customerDetailsChanged: _vm.customerDetailsHandle }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "mb-5" },
+          [
+            _c("h3", [
+              _vm._v("Order Details "),
+              _vm.finalAmount > 0
+                ? _c("span", { staticClass: "float-right" }, [
+                    _vm._v(_vm._s(_vm.finalAmount))
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("order-list", { attrs: { items: _vm.orderedItems } })
+          ],
+          1
+        )
+      ]),
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "mb-5" },
+        { staticClass: "col-md-5" },
         [
-          _c("h3", [
-            _vm._v("Order Details "),
-            _vm.finalAmount > 0
-              ? _c("span", { staticClass: "float-right" }, [
-                  _vm._v(_vm._s(_vm.finalAmount))
-                ])
-              : _vm._e()
-          ]),
+          _c("h3", [_vm._v("Menu Items")]),
           _vm._v(" "),
-          _c("order-list", { attrs: { items: _vm.orderItems } })
+          _c("orderMenuItems", {
+            attrs: { items: _vm.menuItems },
+            on: { menuItemAdded: _vm.handleNewMenuItem }
+          })
         ],
         1
       )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "col-md-5" },
-      [
-        _c("h3", [_vm._v("Menu Items")]),
-        _vm._v(" "),
-        _c("orderMenuItems", {
-          attrs: { items: _vm.menuItems },
-          on: { menuItemAdded: _vm.handleNewMenuItem }
-        })
-      ],
-      1
-    )
+    ])
   ])
 }
 var staticRenderFns = []
