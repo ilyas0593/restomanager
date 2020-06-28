@@ -5,7 +5,10 @@
         <li class="list-group-item" v-for="(item, key) in items" :key="key">
           <div>
             <strong>{{item.name}}</strong>, <small>{{item.category.name}}</small>
-            <span class="float-right">{{item.price}}</span>
+            <span class="float-right">
+              {{item.price}}
+              <span class="ml-3 pointer" @click="handleRemoveItem(item)">X</span>
+              </span>
           </div>
         </li>
       </ul>
@@ -19,6 +22,11 @@
 
 <script>
 export default {
-  props: ['items']
+  props: ['items'],
+  methods:{
+    handleRemoveItem(item){
+      window.eventBus.$emit('removeOrdredItem', item);
+    }
+  }
 }
 </script>

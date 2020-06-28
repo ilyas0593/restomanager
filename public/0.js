@@ -204,6 +204,7 @@ __webpack_require__.r(__webpack_exports__);
     window.eventBus.$on('menuItemAdded', this.handleNewMenuItem);
     window.eventBus.$on('filtredList', this.handleFiltredList);
     window.eventBus.$on('clearFiltredList', this.handleClearFiltredList);
+    window.eventBus.$on('removeOrdredItem', this.handlerRemoveOrdredItem);
   },
   computed: {
     finalAmount: function finalAmount() {
@@ -248,6 +249,11 @@ __webpack_require__.r(__webpack_exports__);
     customerDetailsHandle: function customerDetailsHandle(customer) {
       console.log('customer', customer);
       this.customerDetails = customer;
+    },
+    handlerRemoveOrdredItem: function handlerRemoveOrdredItem(item) {
+      this.orderedItems = this.orderedItems.filter(function (orderedItems) {
+        return orderedItems.id != item.id;
+      });
     },
     handleOrderSave: function handleOrderSave() {
       var orderedItemsIds = [];
@@ -300,8 +306,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['items']
+  props: ['items'],
+  methods: {
+    handleRemoveItem: function handleRemoveItem(item) {
+      window.eventBus.$emit('removeOrdredItem', item);
+    }
+  }
 });
 
 /***/ }),
@@ -663,7 +677,21 @@ var render = function() {
                   _c("small", [_vm._v(_vm._s(item.category.name))]),
                   _vm._v(" "),
                   _c("span", { staticClass: "float-right" }, [
-                    _vm._v(_vm._s(item.price))
+                    _vm._v(
+                      "\n            " + _vm._s(item.price) + "\n            "
+                    ),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "ml-3 pointer",
+                        on: {
+                          click: function($event) {
+                            return _vm.handleRemoveItem(item)
+                          }
+                        }
+                      },
+                      [_vm._v("X")]
+                    )
                   ])
                 ])
               ])

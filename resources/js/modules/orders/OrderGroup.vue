@@ -47,6 +47,7 @@ export default {
         window.eventBus.$on('menuItemAdded', this.handleNewMenuItem);
         window.eventBus.$on('filtredList', this.handleFiltredList);
         window.eventBus.$on('clearFiltredList', this.handleClearFiltredList);
+        window.eventBus.$on('removeOrdredItem', this.handlerRemoveOrdredItem);
     },
     computed: {
         finalAmount(){
@@ -91,6 +92,10 @@ export default {
         customerDetailsHandle(customer){
             console.log('customer', customer);
             this.customerDetails = customer;
+        },
+
+        handlerRemoveOrdredItem(item){
+            this.orderedItems = this.orderedItems.filter(orderedItems => orderedItems.id != item.id);
         },
 
         handleOrderSave(){

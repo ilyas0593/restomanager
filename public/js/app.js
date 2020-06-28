@@ -50322,6 +50322,9 @@ Vue.component('resto-group', function () {
 Vue.component('order-group', function () {
   return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./modules/orders/OrderGroup.vue */ "./resources/js/modules/orders/OrderGroup.vue"));
 });
+Vue.component('manage-orders', function () {
+  return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./modules/orders/ManageOrders.vue */ "./resources/js/modules/orders/ManageOrders.vue"));
+});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
