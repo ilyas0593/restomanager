@@ -50311,19 +50311,19 @@ turbolinks__WEBPACK_IMPORTED_MODULE_1___default.a.start();
  */
 
 Vue.component('card-component', function () {
-  return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./components/Card.vue */ "./resources/js/components/Card.vue"));
+  return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./components/Card.vue */ "./resources/js/components/Card.vue"));
 });
 Vue.component('menu-container', function () {
-  return Promise.all(/*! import() */[__webpack_require__.e(4), __webpack_require__.e(1)]).then(__webpack_require__.bind(null, /*! ./modules/menu/MenuContainer.vue */ "./resources/js/modules/menu/MenuContainer.vue"));
+  return Promise.all(/*! import() */[__webpack_require__.e(5), __webpack_require__.e(1)]).then(__webpack_require__.bind(null, /*! ./modules/menu/MenuContainer.vue */ "./resources/js/modules/menu/MenuContainer.vue"));
 });
 Vue.component('resto-group', function () {
-  return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./modules/restos/RestoGroup.vue */ "./resources/js/modules/restos/RestoGroup.vue"));
+  return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./modules/restos/RestoGroup.vue */ "./resources/js/modules/restos/RestoGroup.vue"));
 });
 Vue.component('order-group', function () {
   return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./modules/orders/OrderGroup.vue */ "./resources/js/modules/orders/OrderGroup.vue"));
 });
 Vue.component('manage-orders', function () {
-  return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./modules/orders/ManageOrders.vue */ "./resources/js/modules/orders/ManageOrders.vue"));
+  return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./modules/orders/ManageOrders.vue */ "./resources/js/modules/orders/ManageOrders.vue"));
 });
 /**
  * Next, we will create a fresh Vue application instance and attach it to

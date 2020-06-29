@@ -49,7 +49,6 @@ class RestaurantOrderController extends Controller
         ]);
 
         $itemIds = $postData['order_data']['orderedItems'];
-        $itemIds[] = 99;
 
         try {
             DB::beginTransaction();
@@ -90,4 +89,30 @@ class RestaurantOrderController extends Controller
         return response()->json($order, 201);
 
     }
+
+    public function complete(Request $request)
+    {
+        $postData = $this->validate($request, [
+            'order_id' => ['required', 'exists:orders,id'],
+        ]);
+
+        $order = Order::find($postData['order_id']);
+        $order->isComplete = 1;
+        $order->save();
+
+        return response()->json($order, 201);
+    }
+
+    public function remove(Request $request)
+    {
+        $postData = $this->validate($request, [
+            'order_id' => ['required', 'exists:orders,id'],
+        ]);
+
+        Order::where('id', $postData['order_id'])->delete();
+
+        return response()->json("", 201);
+    }
+
+
 }

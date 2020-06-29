@@ -5,17 +5,15 @@
         <td>{{ order.amount }}</td>
         <td>{{ order.isComplete ? "Completed" : "Incomplete" }}</td>
         <td>
-          Name: {{ order.order_details.customer_name }}
-          <br />
-          Phone: {{ order.order_details.customer_phone }}
-          <br />
+          Name: {{ order.order_details.customer_name }}<br />
+          Phone: {{ order.order_details.customer_phone }}<br />
           Address: {{ order.order_details.customer_address }}
         </td>
         <td>
-            <button class="btn btn-sm btn-success">Completed</button>
-            <br>
-            <br>
-            <button class="btn btn-sm btn-danger">Cancel</button>
+            <!-- icons taken from https://coolsymbol.com -->
+            <button class="btn btn-success mr-3" @click="clickComplete(order)">✔</button>
+            <button class="btn btn-warning" @click="clickDelete(order)">✘</button>
+
         </td>
       </tr>
     </tbody>
@@ -23,6 +21,16 @@
 
 <script>
 export default {
-    props: ["orders"]
+    props: ["orders"],
+    methods: {
+      clickComplete(order){
+        this.$emit('onComplete', order);
+      },
+
+      clickDelete(order){
+        this.$emit('onDelete', order);
+      }
+
+    }
 }
 </script>
