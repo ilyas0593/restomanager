@@ -10,7 +10,7 @@ $factory->define(Menu::class, function (Faker $faker) {
         //
         
         'name' => $faker->word,
-        'description' => $faker ->paragraphs(2, true),
+        'description' => $faker ->word,
         'price'=> $faker ->numberBetween(99, 999),
         'resto_id' => 1,
         'category_id' => 1,
