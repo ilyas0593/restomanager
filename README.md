@@ -1,3 +1,3 @@
 Restaurant Manager
 
-Working on progress
+Using Laravel and VueJS
